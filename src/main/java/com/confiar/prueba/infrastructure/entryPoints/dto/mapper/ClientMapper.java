@@ -35,10 +35,11 @@ public class ClientMapper {
     }
 
     public ClientEntity toEntity(Client client) {
-        ClientEntity entity = new ClientEntity();
-        entity.setNit(client.getNit());
-        entity.setName(client.getName());
-        entity.setCreationDate(client.getCreatedAt().toString());
-        return entity;
+        return ClientEntity.builder()
+                .id(client.getId())
+                .nit(client.getNit())
+                .name(client.getName())
+                .creationDate(client.getCreatedAt().toString())
+                .build();
     }
 }

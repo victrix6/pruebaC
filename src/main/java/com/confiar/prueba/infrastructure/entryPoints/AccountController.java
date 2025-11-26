@@ -1,5 +1,6 @@
 package com.confiar.prueba.infrastructure.entryPoints;
 
+import com.confiar.prueba.domain.model.account.Account;
 import com.confiar.prueba.domain.usecases.AccountUseCase;
 import com.confiar.prueba.infrastructure.entryPoints.dto.ApiResponse;
 import com.confiar.prueba.infrastructure.entryPoints.dto.account.AccountRequest;
@@ -20,10 +21,11 @@ public class AccountController {
 
     @PostMapping("/account")
     public ApiResponse<AccountResponse> createAccount(@RequestBody AccountRequest request){
-        var accountDomain = mapper.toDomain(request);
-
-        var saved = useCase.saveAccount(accountDomain);
-
+        System.out.println("requestcontroller = " + request);
+        Account accountDomain = mapper.toDomain(request);
+        System.out.println("accountDomain = " + accountDomain);
+        Account saved = useCase.saveAccount(accountDomain);
+        System.out.println("saved = " + saved);
         return ApiResponse.<AccountResponse>builder()
                 .code("00")
                 .message("Cuenta creada exitosamente")

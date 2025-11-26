@@ -27,4 +27,9 @@ public class ClientRepositoryImpl implements ClientRepository {
     public Optional<Client> findById(Long id) {
         return repo.findById(id).map(mapper::toDomain);
     }
+
+    @Override
+    public Optional<Client> findByNit(String nit) {
+        return repo.findByNit(nit).map(mapper::toDomain);
+    }
 }

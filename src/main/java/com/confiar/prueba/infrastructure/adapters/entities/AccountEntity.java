@@ -15,14 +15,18 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nit_cliente", nullable = false)
-    private ClientEntity client;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @JoinColumn(
+            name = "nit_cliente",           // 1. Nombre de la columna en la tabla 'accounts'
+            referencedColumnName = "nit",   // 2. Nombre de la columna en la tabla 'clientes' (ClientEntity)
+            nullable = false
+    )
+    private ClientEntity clientEntity;
 
     @Column(name = "numero_cuenta", unique = true, nullable = false)
     private String accountNumber;
 
-    @Column(name = "monto", nullable = false)
+    @Column(name = "saldo", nullable = false)
     private Double balance;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -2,6 +2,8 @@ package com.confiar.prueba.domain.usecases;
 
 import com.confiar.prueba.domain.model.account.Account;
 import com.confiar.prueba.domain.model.account.AccountRepository;
+import com.confiar.prueba.domain.model.client.Client;
+import com.confiar.prueba.domain.model.client.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,15 +11,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AccountUseCase {
     private final AccountRepository accountRepository;
-
-    if (!clientRepository.existsByNit(account.getClientNit())) {
-        throw new BusinessException("Cliente no existe");
-    }
-    if (accountRepository.existsByNumber(account.getNumber())) {
-        throw new BusinessException("Cuenta ya existe");
-    }
+    private final ClientRepository clientRepository;
 
     public Account saveAccount(Account account) {
+        Client client = clientRepository.findByNit(account.getClient().getNit())
+                .orElseThrow(() -> new IllegalStateException("Cliente no existe"));
+        if (!accountRepository.findByAccountNumber(account.getAccountNumber()).isEmpty())
+        {
+            throw new IllegalStateException("Cuenta ya existe");
+        }
+        account.setClient(client);
+        System.out.println("clientusecase = " + client);
+        System.out.println("accountusecase = " + account);
+
         return accountRepository.save(account);
     }
 }

@@ -13,9 +13,9 @@ public class ClientUseCase {
     private final ClientRepository clientRepository;
 
     public Client saveClient(Client client) {
-//        if (clientRepository.findByNit(client.getNit())) {
-//            throw new BusinessException("Cliente ya existe");
-//        }
+        if (!clientRepository.findByNit(client.getNit()).isEmpty()) { //validar
+            throw new IllegalStateException("Cliente ya existe");  //cambiar a BusinessException
+        }
         if (client.getCreatedAt() == null) {
             client.setCreatedAt(java.time.LocalDate.now());
         }
@@ -24,6 +24,10 @@ public class ClientUseCase {
 
     public Optional<Client> getClientById(Long id) {
         return clientRepository.findById(id);
+    }
+
+    public Optional<Client> getClientByNit(String nit) {
+        return clientRepository.findByNit(nit);
     }
 }
 

@@ -12,5 +12,6 @@ import java.math.BigDecimal;
 public class AccountRequest {
 
     private String nit;
+    private String accountNumber;
     private BigDecimal balance;
 }

@@ -3,6 +3,7 @@ package com.confiar.prueba.infrastructure.entryPoints.dto.mapper;
 import com.confiar.prueba.domain.model.account.Account;
 import com.confiar.prueba.domain.model.client.Client;
 import com.confiar.prueba.infrastructure.adapters.entities.AccountEntity;
+import com.confiar.prueba.infrastructure.adapters.entities.ClientEntity;
 import com.confiar.prueba.infrastructure.entryPoints.dto.account.AccountRequest;
 import com.confiar.prueba.infrastructure.entryPoints.dto.account.AccountResponse;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class AccountMapper {
                     .client(Client.builder()
                             .nit(request.getNit())
                             .build())
+                    .accountNumber(request.getAccountNumber())
                     .balance(request.getBalance())
                     .build();
         }
@@ -27,10 +29,10 @@ public class AccountMapper {
                 .accountNumber(entity.getAccountNumber())
                 .balance(BigDecimal.valueOf(entity.getBalance()))
                 .client(Client.builder()
-                        .id(entity.getClient().getId())
-                        .nit(entity.getClient().getNit())
-                        .name(entity.getClient().getName())
-                        .createdAt(LocalDate.parse(entity.getClient().getCreationDate()))
+                        .id(entity.getClientEntity().getId())
+                        .nit(entity.getClientEntity().getNit())
+                        .name(entity.getClientEntity().getName())
+                        .createdAt(LocalDate.parse(entity.getClientEntity().getCreationDate()))
                         .build())
                 .build();
     }
@@ -50,6 +52,11 @@ public class AccountMapper {
 
     public AccountEntity toEntity(Account account) {
         return AccountEntity.builder()
+                .clientEntity(ClientEntity.builder()
+                        .name(account.getClient().getName())
+                        .nit(account.getClient().getNit())
+                        .creationDate(account.getClient().getCreatedAt().toString())
+                        .build())
                 .accountNumber(account.getAccountNumber())
                 .balance(account.getBalance().doubleValue())
                 .build();

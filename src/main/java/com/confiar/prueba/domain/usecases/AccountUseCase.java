@@ -7,6 +7,8 @@ import com.confiar.prueba.domain.model.client.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class AccountUseCase {
@@ -21,9 +23,10 @@ public class AccountUseCase {
             throw new IllegalStateException("Cuenta ya existe");
         }
         account.setClient(client);
-        System.out.println("clientusecase = " + client);
-        System.out.println("accountusecase = " + account);
-
         return accountRepository.save(account);
+    }
+
+    public Optional<Account> getAccountByNumber(String accountNumber) {
+        return accountRepository.findByAccountNumber(accountNumber);
     }
 }

@@ -1,8 +1,10 @@
 package com.confiar.prueba.infrastructure.adapters.entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
 @Data
 @Table(name = "cuentas")
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

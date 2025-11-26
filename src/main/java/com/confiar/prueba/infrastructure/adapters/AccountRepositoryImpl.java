@@ -17,8 +17,6 @@ public class AccountRepositoryImpl implements AccountRepository {
     private final ClientRepositoryJpa clientRepositoryJpa;
     private final AccountMapper mapper;
 
-
-
     @Override
     public Account save(Account account) {
         ClientEntity clientEntity = clientRepositoryJpa.findByNit(account.getClient().getNit())
@@ -33,6 +31,6 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public Optional<Account> findByAccountNumber(String accountNumber) {
-        return Optional.empty();
+        return repo.findByAccountNumber(accountNumber).map(mapper::toDomain);
     }
 }

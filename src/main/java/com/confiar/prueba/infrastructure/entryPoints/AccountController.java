@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
@@ -21,11 +23,18 @@ public class AccountController {
 
     @PostMapping("/account")
     public ApiResponse<AccountResponse> createAccount(@RequestBody AccountRequest request){
-        System.out.println("requestcontroller = " + request);
+        Optional<Account> optionalAccount = useCase.getAccountByNumber(request.getAccountNumber());
+        if (optionalAccount.isPresent()) {
+            Account accountfound = optionalAccount.get();
+            return ApiResponse.<AccountResponse>builder()
+                    .code("02")
+                    .message("Cuenta ya existe")
+                    .data(mapper.toResponse(accountfound))
+                    .build();
+        }
+
         Account accountDomain = mapper.toDomain(request);
-        System.out.println("accountDomain = " + accountDomain);
         Account saved = useCase.saveAccount(accountDomain);
-        System.out.println("saved = " + saved);
         return ApiResponse.<AccountResponse>builder()
                 .code("00")
                 .message("Cuenta creada exitosamente")

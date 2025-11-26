@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
+
 @Component
 public class AccountMapper {
     public Account toDomain(AccountRequest request) {
@@ -63,4 +65,5 @@ public class AccountMapper {
                 .balance(account.getBalance().doubleValue())
                 .build();
     }
+
 }

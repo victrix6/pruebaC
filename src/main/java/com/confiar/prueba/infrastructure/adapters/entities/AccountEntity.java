@@ -14,13 +14,13 @@ public class AccountEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", nullable = false)
+    @JoinColumn(name = "nit_cliente", nullable = false)
     private ClientEntity client;
 
-    @Column(name = "account_number", unique = true, nullable = false)
+    @Column(name = "numero_cuenta", unique = true, nullable = false)
     private String accountNumber;
 
-    @Column(name = "balance", nullable = false)
+    @Column(name = "monto", nullable = false)
     private Double balance;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

@@ -1,6 +1,7 @@
 package com.confiar.prueba.infrastructure.entryPoints;
 
 
+import com.confiar.prueba.domain.model.client.Client;
 import com.confiar.prueba.domain.usecases.ClientUseCase;
 import com.confiar.prueba.infrastructure.entryPoints.dto.ApiResponse;
 import com.confiar.prueba.infrastructure.entryPoints.dto.client.ClientRequest;
@@ -8,6 +9,8 @@ import com.confiar.prueba.infrastructure.entryPoints.dto.client.ClientResponse;
 import com.confiar.prueba.infrastructure.entryPoints.dto.mapper.ClientMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -18,10 +21,18 @@ public class ClientController {
 
     @PostMapping("/client")
     public ApiResponse<ClientResponse> createClient(@RequestBody ClientRequest request) {
-        var clientDomain = mapper.toDomain(request);
 
-        var saved = useCase.saveClient(clientDomain);
+        Optional<Client> clientFound = useCase.getClientByNit(request.getNit());
+        if (clientFound.isPresent()) {
+            return ApiResponse.<ClientResponse>builder()
+                    .code("02")
+                    .message("Cliente ya existe")
+                    .data(mapper.toResponse(clientFound.get()))
+                    .build();
+        }
 
+        Client clientDomain = mapper.toDomain(request);
+        Client saved = useCase.saveClient(clientDomain);
         return ApiResponse.<ClientResponse>builder()
                 .code("00")
                 .message("Cliente creado exitosamente")

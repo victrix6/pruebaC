@@ -52,7 +52,9 @@ public class AccountMapper {
 
     public AccountEntity toEntity(Account account) {
         return AccountEntity.builder()
+                .id(account.getId())
                 .clientEntity(ClientEntity.builder()
+                        .id(account.getClient().getId())
                         .name(account.getClient().getName())
                         .nit(account.getClient().getNit())
                         .creationDate(account.getClient().getCreatedAt().toString())
